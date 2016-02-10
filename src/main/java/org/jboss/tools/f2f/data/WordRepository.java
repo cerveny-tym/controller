@@ -73,19 +73,22 @@ public class WordRepository {
 			 */
 	      }
 		 Collections.sort(words);
+		 JSONObject jo = new JSONObject();
+		 //Map<String,Object> mapValues = new HashMap<String,Object>();
+		 List<Map<String,Object>> values = new ArrayList<Map<String,Object>>();
 		 for(int y=0;y<words.size() && y<100000;y++){
 			 Word myWord = words.get(y);
-			 JSONObject jo = new JSONObject();
-			 Map<String,Object> values = new HashMap<String,Object>();
-			 values.put("word", myWord.getWord());
-			 values.put("count", myWord.getCount());
-			 values.put("density", myWord.getDensity());
-			 values.put("frequency", myWord.getFrequency());
-			 jo.put("words", values);
-			 
+			 Map<String,Object> mapValues = new HashMap<String,Object>();
+			 mapValues.put("word", myWord.getWord());
+			 mapValues.put("count", myWord.getCount());
+			 mapValues.put("density", myWord.getDensity());
+			 mapValues.put("frequency", myWord.getFrequency());
+			 values.add(mapValues);
 			 //String jsonWord = JSON.serialize(cur.next());
-			 jsonWords.add(jo.toString());
+			
 		 }
+		 jo.put("words", values);
+		 jsonWords.add(jo.toString());
 		 return jsonWords;
 		} finally {
 			if (mg != null) {
