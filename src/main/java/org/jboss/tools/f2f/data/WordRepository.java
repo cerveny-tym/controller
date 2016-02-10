@@ -1,6 +1,5 @@
 package org.jboss.tools.f2f.data;
 
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,38 +8,26 @@ import java.util.Map;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-
-import org.bson.Document;
 
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.util.JSON;
 
 import org.json.JSONObject;
 
 @ApplicationScoped
 public class WordRepository {
 	
-	private String username = System.getProperty("MONGODB_USERNAME", "redteam");
-	private String password = System.getProperty("MONGODB_PASSWORD", "redpassword");
-	private String mongoUrl = System.getProperty("MONGODB_URL", "ds061415.mongolab.com:61415");
+	@Inject
+	DBManager dbManager;
+	
+	
 	
 	public String getWords(){
 		//return mockupData();
-		
-		MongoClient mg = null;
-		try {
-		 MongoClientURI uri = new MongoClientURI("mongodb://"+username+":"+password+"@"+mongoUrl+"/buzzword");
-		 mg =  new MongoClient(uri);
-		 
-		 
-		 DBCollection coll = mg.getDB("buzzword").getCollection("stats");
+		 DBCollection coll = dbManager.getDB().getCollection("stats");
 		 DBCursor cur = coll.find();
 		 List<String> jsonWords = new ArrayList<String>();
 		 int i = 0;
@@ -89,11 +76,6 @@ public class WordRepository {
 		 }
 		 jo.put("words", values);
 		 return jo.toString();
-		} finally {
-			if (mg != null) {
-				mg.close();;
-			}
-		}
 		
 		 
 		 
