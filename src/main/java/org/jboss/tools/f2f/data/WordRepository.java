@@ -2,6 +2,7 @@ package org.jboss.tools.f2f.data;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,13 +44,21 @@ public class WordRepository {
 		 DBCursor cur = coll.find();
 		 List<String> jsonWords = new ArrayList<String>();
 		 int i = 0;
-		 while (cur.hasNext() && i < 1000000) {  
+		 List<Word> words = new ArrayList<Word>();
+		 while (cur.hasNext()) {  
+			 
 			 DBObject obj = cur.next();
+			 
+			 
+			 
 			 Object word = obj.get("word");
 			 Object count = obj.get("count");
 			 Object density1 = obj.get("density");
 			 Object freq1 = obj.get("frequency");
 			 
+			 words.add(new Word((String)word, (Integer)count, (Double)freq1, (Double)density1));
+			 
+			 /*
 			 JSONObject jo = new JSONObject();
 			 Map<String,Object> values = new HashMap<String,Object>();
 			 values.put("word", word);
@@ -61,7 +70,22 @@ public class WordRepository {
 			 //String jsonWord = JSON.serialize(cur.next());
 			 jsonWords.add(jo.toString());
 			 i++;
+			 */
 	      }
+		 Collections.sort(words);
+		 for(int y=0;y<words.size() && y<100000;y++){
+			 Word myWord = words.get(y);
+			 JSONObject jo = new JSONObject();
+			 Map<String,Object> values = new HashMap<String,Object>();
+			 values.put("word", myWord.getWord());
+			 values.put("count", myWord.getCount());
+			 values.put("density", myWord.getDensity());
+			 values.put("frequency", myWord.getFrequency());
+			 jo.put("words", values);
+			 
+			 //String jsonWord = JSON.serialize(cur.next());
+			 jsonWords.add(jo.toString());
+		 }
 		 return jsonWords;
 		} finally {
 			if (mg != null) {
