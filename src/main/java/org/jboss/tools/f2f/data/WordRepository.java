@@ -43,22 +43,19 @@ public class WordRepository {
 		 DBCursor cur = coll.find();
 		 List<String> jsonWords = new ArrayList<String>();
 		 int i = 0;
-		 while (cur.hasNext() && i<1000) {  
+		 while (cur.hasNext() && i < 1000000) {  
 			 DBObject obj = cur.next();
 			 Object word = obj.get("word");
 			 Object count = obj.get("count");
 			 Object density1 = obj.get("density");
 			 Object freq1 = obj.get("frequency");
-			 Object density =  ((Double) density1).intValue();
-			 
-			 Object frequency =  ((Double) freq1).intValue();
 			 
 			 JSONObject jo = new JSONObject();
 			 Map<String,Object> values = new HashMap<String,Object>();
 			 values.put("word", word);
 			 values.put("count", count);
-			 values.put("density", density);
-			 values.put("frequency", frequency);
+			 values.put("density", density1);
+			 values.put("frequency", freq1);
 			 jo.put("words", values);
 			 
 			 //String jsonWord = JSON.serialize(cur.next());
