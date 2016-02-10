@@ -20,7 +20,7 @@ public class WordService {
 	
 	@GET
     @Produces(MediaType.APPLICATION_JSON)
-	public List<String> getAllWords(){
+	public String getAllWords(){
 		return wordRepository.getWords();
 	}
 

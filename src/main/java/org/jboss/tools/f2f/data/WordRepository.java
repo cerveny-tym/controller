@@ -31,7 +31,7 @@ public class WordRepository {
 	private String password = System.getProperty("MONGODB_PASSWORD", "redpassword");
 	private String mongoUrl = System.getProperty("MONGODB_URL", "ds061415.mongolab.com:61415");
 	
-	public List<String> getWords(){
+	public String getWords(){
 		//return mockupData();
 		
 		MongoClient mg = null;
@@ -88,8 +88,7 @@ public class WordRepository {
 			
 		 }
 		 jo.put("words", values);
-		 jsonWords.add(jo.toString());
-		 return jsonWords;
+		 return jo.toString();
 		} finally {
 			if (mg != null) {
 				mg.close();;
