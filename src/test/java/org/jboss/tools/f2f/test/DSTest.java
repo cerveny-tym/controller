@@ -32,9 +32,10 @@ public class DSTest {
 		 while (cur.hasNext()) {  
 			 String jsonWord = JSON.serialize(cur.next());
 			 jsonWords.add(jsonWord);
+			 System.out.println(jsonWord);
 	      }
 		 mg.close();
-		 System.out.println(jsonWords);
+		//System.out.println(jsonWords);
 		 
 		 
 		 /*

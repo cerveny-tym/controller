@@ -10,7 +10,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.jboss.tools.f2f.data.WordRepository;
-import org.jboss.tools.f2f.model.Word;
 
 @Path("/word")
 @RequestScoped
@@ -21,7 +20,7 @@ public class WordService {
 	
 	@GET
     @Produces(MediaType.APPLICATION_JSON)
-	public List<Word> getAllWords(){
+	public List<String> getAllWords(){
 		return wordRepository.getWords();
 	}
 
